@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap">
+<style>html,body{margin:0;height:100%;background:#dcd8cd}a{color:#46732a}a:hover{color:#2f5417}</style>
+<script>window.OM_SCENES = '[{"name":"Doc","dur":9,"desc":"The document room: select a passage, comment on it, then Edit"},{"name":"Edit","dur":9,"desc":"An editing session: the writing strip, type, Save version 4"},{"name":"Deck","dur":7,"desc":"A presentation: slides on the spine, one large with notes; Present"},{"name":"Present","dur":5,"desc":"The deck alone; Stop presenting"},{"name":"Knows","dur":8,"desc":"Using what Monet knows: the facts on the shelf; Forget, with Undo"},{"name":"Find","dur":7,"desc":"Search the library on the shelf; open a result as Evidence"}]';</script>
+<script>window.OM_PLAYBACK = '{"mode":"times","count":1}';</script>
+<script>window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "motionEditor": true,
+  "dark": false
+}/*EDITMODE-END*/;</script>
+</helmet>
+<div style="position:fixed;inset:0">
+  <x-import component-from-global-scope="AtelierJourney" from="./portraits-data.js ./animations-v3.jsx ./tweaks-panel.jsx ./atelier-film.jsx ./atelier-journeys.jsx" hint-size="100%,100%"></x-import>
+</div>
+</x-dc>
+</body>
+</html>

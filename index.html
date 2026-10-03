@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap">
+<style>body{margin:0;background:#f6f3ec}a{color:#46732a;text-decoration:none}a:hover{color:#2f5417}button{font-family:inherit}</style>
+</helmet>
+<div style="max-width:1640px;margin:0 auto;padding:28px clamp(20px,3vw,48px) 64px;box-sizing:border-box;display:flex;flex-direction:column;gap:28px;font-family:'Inter Tight',system-ui,sans-serif;color:#191f18">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:24px;padding-bottom:18px;border-bottom:1px solid #e3ddcb">
+    <div style="display:flex;align-items:baseline;gap:14px"><span style="font:400 32px/1 'Instrument Serif',Georgia,serif;display:flex;align-items:baseline;gap:2px">a<span style="width:6px;height:6px;border-radius:50%;background:#e0875a;display:inline-block"></span></span><span style="font:400 22px/1 'Instrument Serif',Georgia,serif">Atelier</span></div>
+    <span style="font:400 12px/1.3 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:#646a5b;white-space:nowrap">A first look · Eight journeys</span>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 48px">
+    <h1 style="margin:0;font:400 48px/1.05 'Instrument Serif',Georgia,serif">Atelier, one <em style="color:#46732a">journey</em> at a time.</h1>
+    <p style="margin:0;max-width:640px;font:400 18px/1.5 Newsreader,Georgia,serif;color:#4f5649;text-wrap:pretty">A lead and a small AI team that turn your goals into finished work. Each film follows one person: a founder shipping an app, a CEO running a retreat, a scientist reading data.</p>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:32px;align-items:stretch">
+    <div ref="{{ playerRef }}" style="flex:1 1 460px;min-width:0;display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap">
+        <span style="font:400 12px/1.3 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:#191f18;white-space:nowrap">{{ cur.label }}</span>
+        <span style="font:400 12px/1.3 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:#646a5b">{{ cur.who }}</span>
+      </div>
+      <div style="position:relative;width:100%;aspect-ratio:16 / 9.75;border-radius:12px;overflow:hidden;background:#dcd8cd;box-shadow:0 0 0 1px #cfc9b4,0 30px 70px -40px rgba(1,34,18,.45)">
+        <iframe ref="{{ frameRef }}" src="{{ cur.src }}" title="{{ cur.title }}" allow="fullscreen" allowfullscreen="true" style="position:absolute;inset:0;width:100%;height:100%;border:0;display:block"></iframe>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px;padding-top:2px">
+        
+        <div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+          <span style="font:400 32px/1.1 'Instrument Serif',Georgia,serif">{{ cur.title }}</span>
+          <span style="font:400 18px/1.55 Newsreader,Georgia,serif;color:#4f5649;text-wrap:pretty;max-width:760px">{{ cur.desc }}</span>
+        </div>
+      </div>
+    </div>
+    <div style="flex:0 1 340px;min-width:280px;min-height:420px;position:relative;display:flex;flex-direction:column">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:12px;border-bottom:1px solid #191f18">
+        <span style="font:400 24px/1.1 'Instrument Serif',Georgia,serif">The <em style="color:#46732a">journeys</em></span>
+        <span style="font:400 12px/1.3 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:#646a5b">8</span>
+      </div>
+      <div style="flex:1;position:relative;min-height:0">
+        <div style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;display:flex;flex-direction:column;padding-right:6px;-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 28px),transparent)">
+          <sc-for list="{{ films }}" as="f" hint-placeholder-count="0">
+            <button onClick="{{ f.pick }}" style="border:0;border-bottom:1px solid #e3ddcb;background:{{ f.bg }};padding:14px 10px 14px 8px;margin:0;text-align:left;cursor:pointer;display:grid;grid-template-columns:128px minmax(0,1fr);gap:14px;align-items:start;color:#191f18;border-radius:8px;transition:background 300ms cubic-bezier(.2,.7,.2,1)" style-hover="background:#efebe1">
+              <span style="display:block;width:128px;aspect-ratio:16 / 10;border-radius:6px;overflow:hidden;background:#ece8dc;box-shadow:{{ f.ring }}">{{ f.poster }}</span>
+              <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                <span style="display:flex;justify-content:space-between;gap:8px;font:400 11px/1.3 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.08em;text-transform:uppercase"><span style="color:#191f18;white-space:nowrap">{{ f.n }} · {{ f.len }}</span><span style="color:#46732a;white-space:nowrap">{{ f.now }}</span></span>
+                <span style="font:400 20px/1.15 'Instrument Serif',Georgia,serif">{{ f.title }}</span>
+                <span style="font:400 14px/1.4 Newsreader,Georgia,serif;color:#4f5649;text-wrap:pretty">{{ f.short }}</span>
+              </span>
+            </button>
+          </sc-for>
+          <div style="height:24px;flex:none"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  F = [
+    ['Journey 1 - Day One', 'Day one', 'The founder · Monet', '53 s', 'The founder opens Atelier for the first time: a project begins, the team forms, Kiri says hello and asks where things live, the code is connected, and the first Home arrives with her plan.', 'First open to the first Home.'],
+    ['Journey 2 - A Morning on Monet', 'A morning on Monet', 'The founder · Monet', '1 min 6 s', 'Ten days in. Catching up across projects and in Atelier’s room, then reading the day on the ruler: what happened while you were away, the turn, the scales, the lens and pinned work.', 'Catching up, and reading the day on the ruler.'],
+    ['Journey 3 - Deciding on Work', 'Deciding on work', 'The founder · Monet', '47 s', 'Opening Yuki’s fix as a story of moments, reading the evidence behind each one, asking about it, merging it, and approving Kiri’s next plan in her room.', 'Evidence, a question, a merge, a plan.'],
+    ['Journey 4 - Applets and Desks', 'Applets, desks and quiet', 'The founder, then the retreat', '50 s', 'What needs you at a glance, an applet made from a wish, the gallery of everything the team has made, a desk of applets side by side, a dropped connection, and a morning when nothing needs you.', 'Small tools the team makes, and quiet.'],
+    ['Journey 5 - Reading and Making', 'Reading and making', 'The founder · Monet', '45 s', 'The document room: a comment on a passage, an edit, a new version. Then a deck presented full screen, a fact Monet is asked to forget, and a search across the team’s library.', 'Documents, decks, memory and search.'],
+    ['Journey 6 - The Retreat Start to Finish', 'The retreat, start to finish', 'The retreat CEO · her own Mac', '58 s', 'A non-technical CEO on her own Mac: installing, choosing an AI, meeting her team, a morning outline of her day, a review link for the venue, what the guest sees, and the end of the project with what carries forward.', 'From the disk image to the next retreat.'],
+    ['Journey 7 - The Scientist', 'The scientist', 'Theo · Ocean salinity', '20 s', 'An analysis that shows the figure first, a source preview that hangs from its citation, a table just for the reader, and what changed after recalibration, in the one quiet language for changes.', 'Figure first, sources, and what changed.'],
+    ['Atelier End to End', 'The whole story', 'The founder · Monet, end to end', '3 min 36 s', 'The original single film: from the first open to a quiet morning, in one take. Day one, the ruler at every scale, a decision with its evidence, an applet on a desk, and what happens between.', 'The original single film, in one take.']
+  ];
+  state = { i: 0 };
+  frameRef = React.createRef();
+  playerRef = React.createRef();
+  key(i) { return 'atelier-film:' + this.F[i][0] + '.dc.html:t'; }
+  reset(i) { try { localStorage.setItem(this.key(i), '0'); } catch (e) {} }
+  init = this.reset(0);
+  send(code) { try { const w = this.frameRef.current && this.frameRef.current.contentWindow; if (w) w.dispatchEvent(new KeyboardEvent('keydown', { code: code, key: code === 'Space' ? ' ' : code, bubbles: true })); } catch (e) {} }
+  pick(i) { this.reset(i); this.setState({ i: i }); }
+  onKey = (e) => {
+    const t = e.target && e.target.tagName; if (t === 'INPUT' || t === 'TEXTAREA') return;
+    if (e.code === 'Space' || e.code === 'ArrowLeft' || e.code === 'ArrowRight' || e.code === 'Home') { e.preventDefault(); this.send(e.code); }
+    else if (e.key === '0') this.send('Home');
+  };
+  onMsg = (e) => { const d = e.data; if (d && d.type === 'atelier-journey') { const n = this.F.length; this.pick((this.state.i + (d.dir < 0 ? -1 : 1) + n) % n); } };
+  componentDidMount() { window.addEventListener('keydown', this.onKey); window.addEventListener('message', this.onMsg); }
+  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); window.removeEventListener('message', this.onMsg); }
+  renderVals() {
+    const i = this.state.i, n = this.F.length, c = this.F[i];
+    return {
+      frameRef: this.frameRef, playerRef: this.playerRef,
+      cur: { label: 'Journey ' + (i + 1) + ' of ' + n + ' · ' + c[3], n: String(i + 1), title: c[1], who: c[2], len: c[3], desc: c[4], src: encodeURI(c[0] + '.dc.html') + '?journeys=1' },
+      next: () => this.pick((i + 1) % n),
+      prev: () => this.pick((i - 1 + n) % n),
+      restart: () => { this.reset(i); this.send('Home'); },
+      full: () => { const f = this.frameRef.current; if (f && f.requestFullscreen) f.requestFullscreen(); },
+      films: this.F.map((f, k) => ({
+        n: String(k + 1), title: f[1], who: f[2], len: f[3], short: f[5],
+        poster: React.createElement('img', { src: 'posters/journey-' + (k + 1) + '.png', alt: f[1], style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+        now: k === i ? 'Playing' : '',
+        bg: k === i ? '#ece8dc' : 'transparent',
+        ring: k === i ? '0 0 0 2px #f6f3ec, 0 0 0 3.5px #191f18' : '0 0 0 1px #cfc9b4',
+        pick: () => this.pick(k)
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>
