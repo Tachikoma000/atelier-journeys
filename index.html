@@ -8,50 +8,49 @@
 <body>
 <x-dc>
 <helmet>
+<meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap">
-<style>body{margin:0;background:#f6f3ec}a{color:#46732a;text-decoration:none}a:hover{color:#2f5417}button{font-family:inherit}</style>
+<style>body{margin:0;background:#f6f3ec;transition:background 300ms}@media (prefers-color-scheme: dark){body{background:#141712}}a{color:#46732a;text-decoration:none}a:hover{color:#2f5417}button{font-family:inherit}</style>
 </helmet>
-<div style="max-width:1640px;margin:0 auto;padding:28px clamp(20px,3vw,48px) 64px;box-sizing:border-box;display:flex;flex-direction:column;gap:28px;font-family:'Inter Tight',system-ui,sans-serif;color:#191f18">
-  <div style="display:flex;justify-content:space-between;align-items:center;gap:24px;padding-bottom:18px;border-bottom:1px solid #e3ddcb">
+<div ref="{{ root }}" style="--paper:#f6f3ec;--ink:#191f18;--sub:#4f5649;--faint:#646a5b;--line:#e3ddcb;--line2:#cfc9b4;--fern:#46732a;--frame:#dcd8cd;--hov:#efebe1;--sel:#ece8dc;--shadow:rgba(1,34,18,.45);max-width:1640px;margin:0 auto;padding:28px clamp(20px,3vw,48px) 64px;box-sizing:border-box;display:flex;flex-direction:column;gap:28px;font-family:'Inter Tight',system-ui,sans-serif;color:var(--ink);background:var(--paper);transition:background 300ms,color 300ms">
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 24px;padding-bottom:18px;border-bottom:1px solid var(--line)">
     <div style="display:flex;align-items:baseline;gap:14px"><span style="font:400 32px/1 'Instrument Serif',Georgia,serif;display:flex;align-items:baseline;gap:2px">a<span style="width:6px;height:6px;border-radius:50%;background:#e0875a;display:inline-block"></span></span><span style="font:400 22px/1 'Instrument Serif',Georgia,serif">Atelier</span></div>
-    <span style="font:400 12px/1.3 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:#646a5b;white-space:nowrap">A first look · Eight journeys</span>
+    <span style="font:400 12px/1.3 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);white-space:nowrap">A first look · Eight journeys</span>
   </div>
   <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 48px">
-    <h1 style="margin:0;font:400 48px/1.05 'Instrument Serif',Georgia,serif">Atelier, one <em style="color:#46732a">journey</em> at a time.</h1>
-    <p style="margin:0;max-width:640px;font:400 18px/1.5 Newsreader,Georgia,serif;color:#4f5649;text-wrap:pretty">A lead and a small AI team that turn your goals into finished work. Each film follows one person: a founder shipping an app, a CEO running a retreat, a scientist reading data.</p>
+    <h1 style="margin:0;font:400 clamp(34px,8vw,48px)/1.05 'Instrument Serif',Georgia,serif;text-wrap:balance">Atelier, one <em style="color:var(--fern)">journey</em> at a time.</h1>
+    <p style="margin:0;max-width:640px;font:400 18px/1.5 Newsreader,Georgia,serif;color:var(--sub);text-wrap:pretty">A lead and a small AI team that turn your goals into finished work. Each film follows one person: a founder shipping an app, a CEO running a retreat, a scientist reading data.</p>
   </div>
   <div style="display:flex;flex-wrap:wrap;gap:32px;align-items:stretch">
-    <div ref="{{ playerRef }}" style="flex:1 1 460px;min-width:0;display:flex;flex-direction:column;gap:16px">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap">
-        <span style="font:400 12px/1.3 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:#191f18;white-space:nowrap">{{ cur.label }}</span>
-        <span style="font:400 12px/1.3 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:#646a5b">{{ cur.who }}</span>
+    <div ref="{{ playerRef }}" style="flex:999 1 460px;min-width:0;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:6px 16px;flex-wrap:wrap">
+        <span style="font:400 12px/1.3 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);white-space:nowrap">{{ cur.label }}</span>
+        <span style="font:400 12px/1.3 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)">{{ cur.who }}</span>
       </div>
-      <div style="position:relative;width:100%;aspect-ratio:16 / 9.75;border-radius:12px;overflow:hidden;background:#dcd8cd;box-shadow:0 0 0 1px #cfc9b4,0 30px 70px -40px rgba(1,34,18,.45)">
+      <div style="position:relative;width:100%;height:0;padding-bottom:calc(56.25% + 44px);border-radius:12px;overflow:hidden;background:var(--frame);box-shadow:0 0 0 1px var(--line2),0 30px 70px -40px var(--shadow)">
         <iframe ref="{{ frameRef }}" src="{{ cur.src }}" title="{{ cur.title }}" allow="fullscreen" allowfullscreen="true" style="position:absolute;inset:0;width:100%;height:100%;border:0;display:block"></iframe>
       </div>
-      <div style="display:flex;flex-direction:column;gap:18px;padding-top:2px">
-        
-        <div style="display:flex;flex-direction:column;gap:8px;min-width:0">
-          <span style="font:400 32px/1.1 'Instrument Serif',Georgia,serif">{{ cur.title }}</span>
-          <span style="font:400 18px/1.55 Newsreader,Georgia,serif;color:#4f5649;text-wrap:pretty;max-width:760px">{{ cur.desc }}</span>
-        </div>
+      <sc-if value="{{ turnHint }}"><span style="font:400 12px/1.4 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.06em;color:var(--faint)">Turn your phone sideways for a bigger view</span></sc-if>
+      <div style="display:flex;flex-direction:column;gap:8px;min-width:0;padding-top:4px">
+        <span style="font:400 clamp(26px,6vw,32px)/1.1 'Instrument Serif',Georgia,serif">{{ cur.title }}</span>
+        <span style="font:400 18px/1.55 Newsreader,Georgia,serif;color:var(--sub);text-wrap:pretty;max-width:760px">{{ cur.desc }}</span>
       </div>
     </div>
-    <div style="flex:0 1 340px;min-width:280px;min-height:420px;position:relative;display:flex;flex-direction:column">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:12px;border-bottom:1px solid #191f18">
-        <span style="font:400 24px/1.1 'Instrument Serif',Georgia,serif">The <em style="color:#46732a">journeys</em></span>
-        <span style="font:400 12px/1.3 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:#646a5b">8</span>
+    <div style="flex:1 1 300px;min-width:min(280px,100%);min-height:{{ g.minH }};position:relative;display:flex;flex-direction:column">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--ink)">
+        <span style="font:400 24px/1.1 'Instrument Serif',Georgia,serif">The <em style="color:var(--fern)">journeys</em></span>
+        <span style="font:400 12px/1.3 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)">8</span>
       </div>
       <div style="flex:1;position:relative;min-height:0">
-        <div style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;display:flex;flex-direction:column;padding-right:6px;-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 28px),transparent)">
+        <div style="position:{{ g.pos }};inset:0;overflow-y:{{ g.ov }};overflow-x:hidden;overscroll-behavior:contain;display:flex;flex-direction:column;padding-right:{{ g.pr }};-webkit-mask-image:{{ g.mask }};mask-image:{{ g.mask }}">
           <sc-for list="{{ films }}" as="f" hint-placeholder-count="0">
-            <button onClick="{{ f.pick }}" style="border:0;border-bottom:1px solid #e3ddcb;background:{{ f.bg }};padding:14px 10px 14px 8px;margin:0;text-align:left;cursor:pointer;display:grid;grid-template-columns:128px minmax(0,1fr);gap:14px;align-items:start;color:#191f18;border-radius:8px;transition:background 300ms cubic-bezier(.2,.7,.2,1)" style-hover="background:#efebe1">
-              <span style="display:block;width:128px;aspect-ratio:16 / 10;border-radius:6px;overflow:hidden;background:#ece8dc;box-shadow:{{ f.ring }}">{{ f.poster }}</span>
+            <button onClick="{{ f.pick }}" style="border:0;border-bottom:1px solid var(--line);background:{{ f.bg }};padding:14px 10px 14px 8px;margin:0;text-align:left;cursor:pointer;display:grid;grid-template-columns:{{ g.cols }};gap:14px;align-items:start;color:var(--ink);border-radius:8px;transition:background 300ms cubic-bezier(.2,.7,.2,1)" style-hover="background:var(--hov)">
+              <span style="display:block;width:100%;aspect-ratio:16 / 10;border-radius:6px;overflow:hidden;background:var(--sel);box-shadow:{{ f.ring }}">{{ f.poster }}</span>
               <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
-                <span style="display:flex;justify-content:space-between;gap:8px;font:400 11px/1.3 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.08em;text-transform:uppercase"><span style="color:#191f18;white-space:nowrap">{{ f.n }} · {{ f.len }}</span><span style="color:#46732a;white-space:nowrap">{{ f.now }}</span></span>
+                <span style="display:flex;justify-content:space-between;gap:8px;font:400 11px/1.3 ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.08em;text-transform:uppercase"><span style="color:var(--ink);white-space:nowrap">{{ f.n }} · {{ f.len }}</span><span style="color:var(--fern);white-space:nowrap">{{ f.now }}</span></span>
                 <span style="font:400 20px/1.15 'Instrument Serif',Georgia,serif">{{ f.title }}</span>
-                <span style="font:400 14px/1.4 Newsreader,Georgia,serif;color:#4f5649;text-wrap:pretty">{{ f.short }}</span>
+                <span style="font:400 14px/1.4 Newsreader,Georgia,serif;color:var(--sub);text-wrap:pretty">{{ f.short }}</span>
               </span>
             </button>
           </sc-for>
@@ -60,7 +59,6 @@
       </div>
     </div>
   </div>
-  
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
@@ -75,38 +73,91 @@ class Component extends DCLogic {
     ['Journey 7 - The Scientist', 'The scientist', 'Theo · Ocean salinity', '20 s', 'An analysis that shows the figure first, a source preview that hangs from its citation, a table just for the reader, and what changed after recalibration, in the one quiet language for changes.', 'Figure first, sources, and what changed.'],
     ['Atelier End to End', 'The whole story', 'The founder · Monet, end to end', '3 min 36 s', 'The original single film: from the first open to a quiet morning, in one take. Day one, the ruler at every scale, a decision with its evidence, an applet on a desk, and what happens between.', 'The original single film, in one take.']
   ];
-  state = { i: 0 };
+  L = { '--paper': '#f6f3ec', '--ink': '#191f18', '--sub': '#4f5649', '--faint': '#646a5b', '--line': '#e3ddcb', '--line2': '#cfc9b4', '--fern': '#46732a', '--frame': '#dcd8cd', '--hov': '#efebe1', '--sel': '#ece8dc', '--shadow': 'rgba(1,34,18,.45)' };
+  D = { '--paper': '#141712', '--ink': '#ece8dc', '--sub': '#b3b5a6', '--faint': '#92978a', '--line': '#2b3127', '--line2': '#3d4438', '--fern': '#a6cf85', '--frame': '#0c0e0b', '--hov': '#1b1f19', '--sel': '#20251d', '--shadow': 'rgba(0,0,0,.6)' };
+  state = { i: 0, dark: false, w: typeof window !== 'undefined' ? window.innerWidth : 1440, h: typeof window !== 'undefined' ? window.innerHeight : 900 };
+  root = React.createRef();
   frameRef = React.createRef();
   playerRef = React.createRef();
+  mq = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
   key(i) { return 'atelier-film:' + this.F[i][0] + '.dc.html:t'; }
   reset(i) { try { localStorage.setItem(this.key(i), '0'); } catch (e) {} }
   init = this.reset(0);
   send(code) { try { const w = this.frameRef.current && this.frameRef.current.contentWindow; if (w) w.dispatchEvent(new KeyboardEvent('keydown', { code: code, key: code === 'Space' ? ' ' : code, bubbles: true })); } catch (e) {} }
-  pick(i) { this.reset(i); this.setState({ i: i }); }
+  pick(i) { this.stopNow(); this.reset(i); this.setState({ i: i }); }
+  au = null; avail = true; on = false; started = false; engagedF = false; filmPlaying = false; vol = 0.32; raf = 0;
+  fade(to, ms, done) { const a = this.au; if (!a) return; cancelAnimationFrame(this.raf); const from = a.volume, t0 = performance.now(); const step = (t) => { const k = Math.min(1, (t - t0) / ms), e = 1 - Math.pow(1 - k, 3); a.volume = Math.max(0, Math.min(1, from + (to - from) * e)); if (k < 1) this.raf = requestAnimationFrame(step); else if (done) done(); }; this.raf = requestAnimationFrame(step); }
+  startMusic() { const a = this.au; if (!a || !this.avail) return; const p = a.play(); if (p && p.catch) p.catch(() => {}); this.started = true; this.fade(this.vol, 1800); }
+  stopMusic() { const a = this.au; if (!a) return; this.fade(0, 700, () => a.pause()); }
+  stopNow() { const a = this.au; if (!a) return; cancelAnimationFrame(this.raf); a.pause(); try { a.currentTime = 0; } catch (e) {} a.volume = 0; this.filmPlaying = false; }
+  film(s) {
+    const a = this.au;
+    if (s === 'play') { this.filmPlaying = true; this.engagedF = true; if (!a || !this.on || !this.avail) return; if (a.paused) { const p = a.play(); if (p && p.catch) p.catch(() => {}); this.started = true; } this.fade(this.vol, 900); }
+    else if (s === 'pause') { this.filmPlaying = false; if (a && !a.paused) this.fade(0, 400, () => a.pause()); }
+    else if (s === 'end') { this.filmPlaying = false; if (a) this.fade(0, 1400, () => { a.pause(); try { a.currentTime = 0; } catch (e) {} }); }
+    else if (s === 'restart') { if (!a) return; cancelAnimationFrame(this.raf); try { a.currentTime = 0; } catch (e) {} if (this.filmPlaying && this.on && !a.paused) { a.volume = 0; this.fade(this.vol, 900); } }
+  }
+  dip() { if (!this.on || !this.started || !this.au) return; this.fade(0.05, 500, () => this.fade(this.vol, 1600)); }
+  music = {
+    available: () => this.avail,
+    isOn: () => this.on,
+    toggle: () => { this.on = !this.on; if (this.on && this.vol < 0.02) this.vol = 0.32; try { localStorage.setItem('atelier-journeys:music', this.on ? '1' : '0'); } catch (e) {} if (this.on) { if (this.filmPlaying) this.startMusic(); } else this.stopMusic(); return this.on; },
+    film: (s) => this.film(s),
+    kick: () => { this.engagedF = true; if (this.on && !this.started) this.startMusic(); },
+    engaged: () => this.engagedF,
+    getVol: () => this.vol,
+    setVol: (v) => { this.vol = Math.max(0, Math.min(1, v)); try { localStorage.setItem('atelier-journeys:vol', String(this.vol)); } catch (e) {} if (this.vol > 0 && !this.on) { this.on = true; try { localStorage.setItem('atelier-journeys:music', '1'); } catch (e) {} } if (!this.on || !this.au || !this.filmPlaying) return; cancelAnimationFrame(this.raf); if (!this.started) { const p = this.au.play(); if (p && p.catch) p.catch(() => {}); this.started = true; } else if (this.au.paused) { const p = this.au.play(); if (p && p.catch) p.catch(() => {}); } this.au.volume = this.vol; }
+  };
   onKey = (e) => {
     const t = e.target && e.target.tagName; if (t === 'INPUT' || t === 'TEXTAREA') return;
+    if (e.code === 'Space') this.music.kick();
     if (e.code === 'Space' || e.code === 'ArrowLeft' || e.code === 'ArrowRight' || e.code === 'Home') { e.preventDefault(); this.send(e.code); }
     else if (e.key === '0') this.send('Home');
+    if (e.code === 'Home' || e.key === '0') this.film('restart');
   };
-  onMsg = (e) => { const d = e.data; if (d && d.type === 'atelier-journey') { const n = this.F.length; this.pick((this.state.i + (d.dir < 0 ? -1 : 1) + n) % n); } };
-  componentDidMount() { window.addEventListener('keydown', this.onKey); window.addEventListener('message', this.onMsg); }
-  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); window.removeEventListener('message', this.onMsg); }
+  onMsg = (e) => {
+    const d = e.data; if (!d) return;
+    if (d.type === 'atelier-journey') { const n = this.F.length; this.pick((this.state.i + (d.dir < 0 ? -1 : 1) + n) % n); }
+    else if (d.type === 'atelier-full') { window.open(encodeURI(this.F[this.state.i][0] + '.dc.html') + '?system=1', '_blank'); }
+  };
+  onResize = () => this.setState({ w: window.innerWidth, h: window.innerHeight });
+  onScheme = (e) => this.setState({ dark: !!e.matches });
+  apply() {
+    const v = this.state.dark ? this.D : this.L, el = this.root.current;
+    if (el) Object.keys(v).forEach((k) => el.style.setProperty(k, v[k]));
+    document.body.style.background = v['--paper'];
+  }
+  componentDidMount() {
+    try { const q = new URLSearchParams(location.search), s = localStorage.getItem('atelier-journeys:music'); this.on = q.has('music') ? q.get('music') !== '0' : s !== '0'; const v = parseFloat(localStorage.getItem('atelier-journeys:vol')); if (!isNaN(v)) this.vol = v; } catch (e) {}
+    this.au = new Audio('music/journeys.mp3'); this.au.loop = true; this.au.volume = 0; this.au.preload = 'auto';
+    this.au.addEventListener('error', () => { this.avail = false; });
+    window.atelierMusic = this.music;
+    window.addEventListener('keydown', this.onKey); window.addEventListener('message', this.onMsg); window.addEventListener('resize', this.onResize);
+    if (this.mq) { if (this.mq.addEventListener) this.mq.addEventListener('change', this.onScheme); else this.mq.addListener(this.onScheme); this.setState({ dark: this.mq.matches }); }
+    this.apply();
+  }
+  componentDidUpdate() { this.apply(); }
+  componentWillUnmount() {
+    if (this.au) { this.au.pause(); this.au = null; } cancelAnimationFrame(this.raf); if (window.atelierMusic === this.music) window.atelierMusic = null;
+    window.removeEventListener('keydown', this.onKey); window.removeEventListener('message', this.onMsg); window.removeEventListener('resize', this.onResize);
+    if (this.mq) { if (this.mq.removeEventListener) this.mq.removeEventListener('change', this.onScheme); else this.mq.removeListener(this.onScheme); }
+  }
   renderVals() {
-    const i = this.state.i, n = this.F.length, c = this.F[i];
+    const i = this.state.i, n = this.F.length, c = this.F[i], narrow = this.state.w < 760;
     return {
-      frameRef: this.frameRef, playerRef: this.playerRef,
+      root: this.root, frameRef: this.frameRef, playerRef: this.playerRef,
+      turnHint: narrow && this.state.h > this.state.w,
+      g: narrow
+        ? { minH: '0', pos: 'relative', ov: 'visible', pr: '0', mask: 'none', cols: '112px minmax(0,1fr)' }
+        : { minH: '420px', pos: 'absolute', ov: 'auto', pr: '6px', mask: 'linear-gradient(to bottom,#000 calc(100% - 28px),transparent)', cols: '128px minmax(0,1fr)' },
       cur: { label: 'Journey ' + (i + 1) + ' of ' + n + ' · ' + c[3], n: String(i + 1), title: c[1], who: c[2], len: c[3], desc: c[4], src: encodeURI(c[0] + '.dc.html') + '?journeys=1' },
-      next: () => this.pick((i + 1) % n),
-      prev: () => this.pick((i - 1 + n) % n),
-      restart: () => { this.reset(i); this.send('Home'); },
-      full: () => { const f = this.frameRef.current; if (f && f.requestFullscreen) f.requestFullscreen(); },
       films: this.F.map((f, k) => ({
         n: String(k + 1), title: f[1], who: f[2], len: f[3], short: f[5],
         poster: React.createElement('img', { src: 'posters/journey-' + (k + 1) + '.png', alt: f[1], style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
         now: k === i ? 'Playing' : '',
-        bg: k === i ? '#ece8dc' : 'transparent',
-        ring: k === i ? '0 0 0 2px #f6f3ec, 0 0 0 3.5px #191f18' : '0 0 0 1px #cfc9b4',
-        pick: () => this.pick(k)
+        bg: k === i ? 'var(--sel)' : 'transparent',
+        ring: k === i ? '0 0 0 2px var(--paper), 0 0 0 3.5px var(--ink)' : '0 0 0 1px var(--line2)',
+        pick: () => { this.pick(k); if (narrow && this.playerRef.current) window.scrollTo({ top: Math.max(0, this.playerRef.current.getBoundingClientRect().top + window.scrollY - 16), behavior: 'smooth' }); }
       }))
     };
   }

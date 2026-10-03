@@ -657,6 +657,17 @@ function PlaybackBar({ time, duration, playing, onPlayPause, onReset, onSeek, on
   const trackRef = React.useRef(null);
   const [dragging, setDragging] = React.useState(false);
   const [hovT, setHovT] = React.useState(false);
+  const [vol, setVolS] = React.useState(() => { try { return window.parent.atelierMusic ? window.parent.atelierMusic.getVol() : 0.32; } catch (e) { return 0.32; } });
+  const [volHov, setVolHov] = React.useState(false);
+  const [volDrag, setVolDrag] = React.useState(false);
+  const volRef = React.useRef(null);
+  React.useEffect(() => {
+    if (typeof JOURNEY_NAV === 'undefined' || !JOURNEY_NAV) return;
+    var JM = null; try { JM = window.parent.atelierMusic; } catch (e) {}
+    if (!JM || !JM.film) return;
+    JM.film(playing ? 'play' : (duration > 0 && time >= duration - 0.1 ? 'end' : 'pause'));
+  }, [playing]);
+  const [musicOn, setMusicOn] = React.useState(() => { try { return !!(window.parent.atelierMusic && window.parent.atelierMusic.isOn()); } catch (e) { return false; } });
 
   const timeFromEvent = React.useCallback((e) => {
     const rect = trackRef.current.getBoundingClientRect();
@@ -715,7 +726,22 @@ function PlaybackBar({ time, duration, playing, onPlayPause, onReset, onSeek, on
   if (JOURNEY_NAV) {
     const mmss = (t) => { const s = Math.max(0, Math.floor(t)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
     const go = (dir) => window.parent.postMessage({ type: 'atelier-journey', dir: dir }, '*');
-    const full = () => { const d = document; if (d.fullscreenElement) d.exitFullscreen(); else if (d.documentElement.requestFullscreen) d.documentElement.requestFullscreen(); };
+    const solo = () => window.parent.postMessage({ type: 'atelier-full' }, '*');
+    const full = () => { const d = document, el = d.documentElement; if (d.fullscreenElement || d.webkitFullscreenElement) { (d.exitFullscreen || d.webkitExitFullscreen).call(d); return; } const rq = el.requestFullscreen || el.webkitRequestFullscreen; if (!rq) { solo(); return; } try { const p = rq.call(el); if (p && p.catch) p.catch(solo); } catch (e) { solo(); } };
+    const narrowBar = window.innerWidth < 560;
+    const M = (() => { try { return window.parent.atelierMusic || null; } catch (e) { return null; } })();
+    const showMusic = !!(M && M.available());
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const showVol = showMusic && !isIOS && !narrowBar;
+    const muted = !musicOn || vol < 0.02;
+    const volDown = (e) => {
+      e.preventDefault(); setVolDrag(true);
+      const set = (ev) => { const r = volRef.current.getBoundingClientRect(); const v = Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width)); M.setVol(v); setVolS(v); setMusicOn(M.isOn()); };
+      set(e);
+      const up = () => { setVolDrag(false); window.removeEventListener('pointermove', set); window.removeEventListener('pointerup', up); };
+      window.addEventListener('pointermove', set); window.addEventListener('pointerup', up);
+    };
+    const tapPlay = () => { if (M && !playing) M.kick(); onPlayPause(); };
     const ic = { width: 20, height: 20, viewBox: '0 0 20 20', fill: 'none' };
     const sk = { stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' };
     const big = hovT || dragging;
@@ -728,11 +754,11 @@ function PlaybackBar({ time, duration, playing, onPlayPause, onReset, onSeek, on
           <div style={{ position: 'absolute', left: pct + '%', top: 5, width: big ? 13 : 0, height: big ? 13 : 0, marginLeft: big ? -6.5 : 0, marginTop: big ? -6.5 : 0, background: '#9ae064', borderRadius: '50%', transition: 'width 120ms, height 120ms, margin 120ms' }} />
         </div>
         <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 4, padding: '0 8px' }}>
-          <JIcon onClick={onPlayPause} title={playing ? 'Pause (space)' : 'Play (space)'}>
+          <JIcon onClick={tapPlay} title={playing ? 'Pause (space)' : 'Play (space)'}>
             {playing ? <svg {...ic}><rect x="5.5" y="4" width="3" height="12" rx="0.8" fill="currentColor" /><rect x="11.5" y="4" width="3" height="12" rx="0.8" fill="currentColor" /></svg>
               : <svg {...ic}><path d="M6 3.8v12.4c0 .6.7 1 1.2.7l9.4-6.2c.5-.3.5-1 0-1.4L7.2 3.1C6.7 2.8 6 3.2 6 3.8z" fill="currentColor" /></svg>}
           </JIcon>
-          <JIcon onClick={onReset} title="Start over (0)">
+          <JIcon onClick={() => { onReset(); if (M && M.film) M.film('restart'); }} title="Start over (0)">
             <svg {...ic}><path d="M4.5 10a5.5 5.5 0 1 0 1.7-4" {...sk} /><path d="M4 3.5V7h3.5" {...sk} /></svg>
           </JIcon>
           <div style={{ fontSize: 13, fontVariantNumeric: 'tabular-nums', padding: '0 8px', whiteSpace: 'nowrap' }}>
@@ -743,9 +769,27 @@ function PlaybackBar({ time, duration, playing, onPlayPause, onReset, onSeek, on
             <svg {...ic}><path d="M5 4v12" {...sk} /><path d="M15 4.5 8 10l7 5.5V4.5z" fill="currentColor" /></svg>
           </JIcon>
           <button onClick={() => go(1)} title="Next journey" style={{ border: 0, background: 'none', cursor: 'pointer', height: 30, padding: '0 10px', borderRadius: 6, color: '#ece8dc', fontFamily: 'inherit', fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: 8 }}>
-            Next journey
+            {narrowBar ? null : 'Next journey'}
             <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M5 4.5 12 10l-7 5.5V4.5z" fill="currentColor" /><path d="M15 4v12" {...sk} /></svg>
           </button>
+          {showMusic ? (
+            <div onMouseEnter={() => setVolHov(true)} onMouseLeave={() => setVolHov(false)} style={{ display: 'flex', alignItems: 'center' }}>
+            <JIcon onClick={() => { M.toggle(); setMusicOn(M.isOn()); setVolS(M.getVol()); }} title={musicOn ? 'Music off' : 'Music on'}>
+              {!muted
+                ? <svg {...ic}><path d="M3.5 7.5h3l4-3.5v12l-4-3.5h-3z" fill="currentColor" /><path d="M13.5 7.2a4 4 0 0 1 0 5.6M15.8 5a7 7 0 0 1 0 10" {...sk} /></svg>
+                : <svg {...ic}><path d="M3.5 7.5h3l4-3.5v12l-4-3.5h-3z" fill="currentColor" /><path d="M13.5 8l4 4M17.5 8l-4 4" {...sk} /></svg>}
+            </JIcon>
+            {showVol ? (
+              <div style={{ width: volHov || volDrag ? 72 : 0, overflow: 'hidden', transition: 'width 200ms cubic-bezier(.2,.7,.2,1)', display: 'flex', alignItems: 'center' }}>
+                <div ref={volRef} onPointerDown={volDown} title="Music volume" style={{ width: 64, height: 20, margin: '0 4px', position: 'relative', cursor: 'pointer', flex: 'none', touchAction: 'none' }}>
+                  <div style={{ position: 'absolute', left: 0, right: 0, top: 8.5, height: 3, borderRadius: 2, background: 'rgba(236,232,220,0.25)' }} />
+                  <div style={{ position: 'absolute', left: 0, width: (muted ? 0 : vol * 100) + '%', top: 8.5, height: 3, borderRadius: 2, background: '#ece8dc' }} />
+                  <div style={{ position: 'absolute', left: (muted ? 0 : vol * 100) + '%', top: 10, width: 11, height: 11, marginLeft: -5.5, marginTop: -5.5, borderRadius: '50%', background: '#ece8dc' }} />
+                </div>
+              </div>
+            ) : null}
+            </div>
+          ) : null}
           <JIcon onClick={full} title="Full screen">
             <svg {...ic}><path d="M3.5 7.5v-4h4M12.5 3.5h4v4M16.5 12.5v4h-4M7.5 16.5h-4v-4" {...sk} /></svg>
           </JIcon>
@@ -1140,6 +1184,7 @@ function CompositionStage(props) {
   var height = +props.height || 720;
   var bg = props.bg || '#0b0b0e';
   var autoplay = props.autoplay == null ? true : String(props.autoplay) !== 'false';
+  if (typeof JOURNEY_NAV !== 'undefined' && JOURNEY_NAV) { try { var JM = window.parent.atelierMusic; if (JM && JM.engaged) autoplay = !!JM.engaged(); } catch (e) {} }
   var loop = props.loop == null ? true : String(props.loop) !== 'false';
   var state = React.useState(props.scenes);
   var raw = state[0];

@@ -435,12 +435,20 @@
     );
   }
 
+  function useSysDark() {
+    const on = (() => { try { const q = new URLSearchParams(location.search); return q.has('journeys') || q.has('system'); } catch (e) { return false; } })();
+    const mq = on && window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+    const [d, setD] = React.useState(mq ? mq.matches : null);
+    React.useEffect(() => { if (!mq) return; const f = (e) => setD(e.matches); if (mq.addEventListener) mq.addEventListener('change', f); else mq.addListener(f); return () => { if (mq.removeEventListener) mq.removeEventListener('change', f); else mq.removeListener(f); }; }, []);
+    return d;
+  }
   function AtelierJourney() {
     const [t, setTweak] = useTweaks(window.TWEAK_DEFAULTS || { motionEditor: true, dark: false });
+    const sd = useSysDark(), dk = sd === null ? !!t.dark : sd;
     return (
       <>
-        <CompositionStage width={1920} height={1080} persistKey={'atelier-film:' + decodeURIComponent((location.pathname.split('/').pop() || 'film'))} scenes={window.OM_SCENES} playback={window.OM_PLAYBACK} bg={t.dark ? PAL.dark.desk : PAL.light.desk}>
-          <Piece dark={!!t.dark} />
+        <CompositionStage width={1920} height={1080} persistKey={'atelier-film:' + decodeURIComponent((location.pathname.split('/').pop() || 'film'))} scenes={window.OM_SCENES} playback={window.OM_PLAYBACK} bg={dk ? PAL.dark.desk : PAL.light.desk}>
+          <Piece dark={dk} />
         </CompositionStage>
         <TweaksPanel>
           <TweakSection label="Film" />
